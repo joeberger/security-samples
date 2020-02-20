@@ -16,4 +16,4 @@
 
 package com.example.android.biometricauth
 
-const val DEFAULT_KEY_NAME = "default_key"
+const val SYMMETRIC_KEY_NAME = "penn_gaming_key"

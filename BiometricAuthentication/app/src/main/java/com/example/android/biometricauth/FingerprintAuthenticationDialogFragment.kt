@@ -75,7 +75,7 @@ class FingerprintAuthenticationDialogFragment : DialogFragment(),
 
         passwordEditText.setOnEditorActionListener(this)
         secondDialogButton.setOnClickListener {
-            verifyPassword()
+            verifyPassword() // TODO: or go back to the login screen
         }
     }
 
@@ -102,22 +102,21 @@ class FingerprintAuthenticationDialogFragment : DialogFragment(),
                             useFingerprintFutureCheckBox.isChecked)
                     .apply()
             // Re-create the key so that fingerprints including new ones are validated.
-            callback.createKey(DEFAULT_KEY_NAME)
+            callback.createKey(SYMMETRIC_KEY_NAME)
         }
         passwordEditText.setText("")
-        callback.onPurchased(withBiometrics = false)
+        callback.onLogin(withBiometrics = false)
         dismiss()
     }
 
     /**
-     * Checks if the given password is valid. Assume that the password is always correct.
-     * In a real world situation, the password needs to be verified via the server.
+     * Checks if the given password is valid.
      *
      * @param password The password String
      *
      * @return true if `password` is correct, false otherwise
      */
-    private fun checkPassword(password: String) = password.isNotEmpty()
+    private fun checkPassword(password: String) = password.isNotEmpty() // TODO: verify password by API call to authenticate and authorize the user
 
 
     override fun onEditorAction(v: TextView, actionId: Int, event: KeyEvent?): Boolean {
@@ -127,7 +126,7 @@ class FingerprintAuthenticationDialogFragment : DialogFragment(),
     }
 
     interface Callback {
-        fun onPurchased(withBiometrics: Boolean, crypto: BiometricPrompt.CryptoObject? = null)
+        fun onLogin(withBiometrics: Boolean, crypto: BiometricPrompt.CryptoObject? = null)
         fun createKey(keyName: String, invalidatedByBiometricEnrollment: Boolean = true)
     }
 }
